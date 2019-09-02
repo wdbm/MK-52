@@ -8,23 +8,23 @@ The Elektronika MK-52 is an RPN programmable microcalculator. The MK-52 is one o
 
 The MK-52 vacuum fluorescent display is quite dim and it is a very slow calculator, but it provides a powerful set of programming functions. The MK-52 is functionally identical to the MK-62, but features an internal non-volatile EEPROM memory module and expansion ports. One of the specific features of the B3-34 -- MK-54 line was a variety of undocumented features, substantially exceeding that of documented features. Some characteristics of the MK-52 as as follows:
 
-|**characteristic**         |**details**                                        |
-|---------------------------|---------------------------------------------------|
-|type                       |scientific                                         |
-|precision                  |8 BCD digits, exponent ±99                         |
-|input mode                 |Reverse Polish Notation                            |
-|production                 |Kiev, 1983--1991-11                                |
-|price                      |115₽                                                                                              |
-|volatile memory capacity   |105                                                |
-|nonvolatile memory capacity|512 kb                                             |
-|nonvolatile memory type    |EEPROM                                             |
-|clock speed                |455 kHz ceramic resonator                          |
-|ROM memory modules' type   |fabric                                             |
-|size                       |212 mm * 78 mm * 35 mm                             |
-|weight                     |250 g                                              |
-|display size               |8 digit manissa, two digit exponent, separate signs|
-|display type               |green vacuum fluorescent                           |
-|power supply unit          |D2-37                                              |
+|**characteristic**          |**details**                                        |
+|----------------------------|---------------------------------------------------|
+|type                        |scientific                                         |
+|precision                   |8 BCD digits, exponent ±99                         |
+|input mode                  |Reverse Polish Notation                            |
+|production                  |Kiev, 1983--1991-11                                |
+|price                       |115₽                                                                                              |
+|volatile memory capacity    |105                                                |
+|non-volatile memory capacity|512 kb                                             |
+|non-volatile memory type    |EEPROM                                             |
+|clock speed                 |455 kHz ceramic resonator                          |
+|ROM memory modules' type    |fabric                                             |
+|size                        |212 mm * 78 mm * 35 mm                             |
+|weight                      |250 g                                              |
+|display size                |8 digit manissa, two digit exponent, separate signs|
+|display type                |green vacuum fluorescent                           |
+|power supply unit           |D2-37                                              |
 
 # Notation
 
@@ -37,7 +37,7 @@ Throughout this documentation, keyboard-key-style boxed characters represent mic
 |<kbd>CHS</kbd>           |<kbd>/-/</kbd>                        |
 |<kbd>EE</kbd>            |<kbd>Бл</kbd>                         |
 |<kbd>enter</kbd>         |<kbd>B↑</kbd>                         |
-|<kbd>Addr</kb>           |<kbd>A↑</kbd>                         |
+|<kbd>Addr</kbd>          |<kbd>A↑</kbd>                         |
 |<kbd>R/W</kbd>           |<kbd>↑↓</kbd>                         |
 |<kbd>R/S</kbd>           |<kbd>C/л</kbd>                        |
 
@@ -82,14 +82,32 @@ The internal volatile memory of the MK-52 has 105 steps. The internal non-volati
 
 ## Writing to non-volatile memory
 
-Before entering a program into volatile memory with the intention of writing this program to non-volatile memory, the non-volatile program space in which the program is to be written must be cleared first, because performing the clearing operation clears the volatile memory as well as the selected area of the non-volatile memory.
+Before entering a program into volatile memory with the intention of writing this program to non-volatile memory, the non-volatile program space to which the program is to be written must be cleared first, because performing the clearing operation clears the volatile memory as well as the selected area of the non-volatile memory.
 
 Each program step requires 1 byte of memory and each register requires 7 bytes of memory.
 
-When clearing, reading or writing to the non-volatile memory, the "address" and "range" are specified in the form of a six-digit number, preceded by a non-zero number (which is ignored) in automatic mode; i.e., `1aaaadd' corresponds to `dd` bytes, starting at memory address `aaaa`. A two-position data/program switch controls whether data (from the registers) or program memory is transferred; a three-position switch is used to select `read`, `write` and `clear` operations.
+When clearing, reading or writing to the non-volatile memory, the "address" and "range" are specified in the form of a six-digit number, preceded by a non-zero number (which is ignored) in automatic mode; i.e., `1aaaadd` corresponds to `dd` bytes, starting at memory address `aaaa`. A two-position data/program switch (<kbd>Д/P</kbd>) controls whether data (from the registers) or program memory is transferred; a three-position switch is used to select `clear`, `read` and `write` operations (<kbd>C/З/CЧ</kbd>).
 
-### Example: Entry of program, writing to and and reading from non-volatile memory
+### Example: Entry of program, writing to and reading from non-volatile memory
 
-This example demonstrates the entry of a program (which simply adds 1 to a user input number and then displays the result) and the writing and reading of this program to and from non-volatile memory. The program is four steps long (as will be explained in step 2) and, hence, requires 4 bytes of EEPROM memory.
+This example demonstrates the entry of a program (which simply adds 1 to a user input number and then displays the result) and the writing and reading of this program to and from non-volatile memory. The program is four steps long and, hence, requires 4 bytes of EEPROM memory.
 
-- *upcoming*
+
+- [Step 1] Clear the memory.
+    - Switch the <kbd>C/З/CЧ</kbd> switch to <kbd>C</kbd> (clear) and switch the <kbd>Д/P</kbd> switch to <kbd>P</kbd> (program mode).
+    - Switch the <kbd>A/П</kbd> switch to <kbd>A</kbd> (automatic mode).
+    - Enter `1000004` (4 bytes starting at address `0000`).
+    - <kbd>A↑</kbd> (address)
+    - <kbd>↑↓</kbd> (R/W)
+- [Step 2] Enter the program.
+    - Switch the <kbd>C/З/CЧ</kbd> switch to <kbd>CЧ</kbd> (write).
+    - Switch the <kbd>Д/P</kbd> switch to <kbd>P</kbd> (program mode).
+    - Enter the program.
+        - Initially, the screen should display `00`, prompting for input.
+        - <kbd>B↑</kbd> (enter)
+        - <kbd>1</kbd>
+        - <kbd>+</kbd>
+        - The screen should display now `10 01 0E 03`.
+        - <kbd>C/л</kbd> (R/S)
+        - The screen should display now `50 10 01 04`.
+        - The program is in volatile memory.
